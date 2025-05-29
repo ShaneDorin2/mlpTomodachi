@@ -10,13 +10,13 @@ public class ChildGeneratorEditor : Editor
 {
     public override void OnInspectorGUI()
     {
-        base.OnInspectorGUI(); // or DrawDefaultInsepctor() ? 
-
         ChildGeneratror script = (ChildGeneratror)target;
         if (GUILayout.Button("GenerateChild"))
         {
             script.Start();
-            script.GenerateChild();
+            script.OnGeneratChildButtonClick();
         }
+
+        base.OnInspectorGUI(); // or DrawDefaultInsepctor() ? 
     }
 }

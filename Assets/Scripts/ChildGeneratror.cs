@@ -14,13 +14,32 @@ using System.Drawing;
 using Color = UnityEngine.Color;
 using DrawColor = System.Drawing.Color;
 
+enum GeneticsAlgorythm
+{
+    GRADIENT,
+    // Parent colors are added to a gradient and points in the gradient are chosen randomly
+
+    KIWI,
+    /* From reddit
+     * Inherit hues, sats and vals seperatly
+     */
+
+    DIRECT_PASSDOWN
+    /* inherit unchanged coat and main colors. 
+     * Eyes and hairsteaks are dealt with seperatly
+     */
+}
+
 public class ChildGeneratror : MonoBehaviour
 {
-    [SerializeField] Gradient combinedGradient; // for fun
-
+    [SerializeField] GeneticsAlgorythm _chosenAlorythm;
+    
     [SerializeField] GameObject parentA;
     [SerializeField] GameObject parentB;
     [SerializeField] GameObject[] children;
+
+    [Header("Gradient")]
+    [SerializeField] Gradient combinedGradient;
 
     float[] randomNums;
     Color[] randomColors;
@@ -42,7 +61,26 @@ public class ChildGeneratror : MonoBehaviour
     Color[] _mixedColorsDEBUG;
     Color[] _mixedValuesDEBUG;
     Color[] _mixedSatDEBUG;
-    [SerializeField] Color[] _mixedColValDEBUG;
+
+    public void OnGeneratChildButtonClick()
+    {
+        switch (_chosenAlorythm)
+        {
+            case GeneticsAlgorythm.GRADIENT:
+                GradientGenAlgo();
+                break;
+
+            case GeneticsAlgorythm.KIWI:
+                KiwiGenAlgo();
+                break;
+
+            case GeneticsAlgorythm.DIRECT_PASSDOWN:
+                break;
+
+            default:
+                break;
+        }
+    }
 
     public void Start()
     {
@@ -69,7 +107,7 @@ public class ChildGeneratror : MonoBehaviour
     //}
 
     // Update is called once per frame
-    public void GenerateChildBIS()
+    public void GradientGenAlgo()
     {
         CreateParentalGradient(parentA.GetComponentInChildren<PonyColorManager>().GetCurrentColors(),
                                parentB.GetComponentInChildren<PonyColorManager>().GetCurrentColors());
@@ -167,28 +205,13 @@ public class ChildGeneratror : MonoBehaviour
     {
         List<GradientColorKey> colorKeys = new List<GradientColorKey>();
 
-        // Eye colors at either end
-        colorKeys.Add(new GradientColorKey(parentA.eyeColor, 0.0f));
-        colorKeys.Add(new GradientColorKey(parentB.eyeColor, 1.0f));
-
         // Hair color at 0.20 and 0.80
-        colorKeys.Add(new GradientColorKey(parentA.mainColor, 0.20f));
-        colorKeys.Add(new GradientColorKey(parentB.mainColor, 0.80f));
+        colorKeys.Add(new GradientColorKey(parentA.mainColor, 0f));
+        colorKeys.Add(new GradientColorKey(parentB.mainColor, 1f));
 
         // Skin color at 0.40 and 0.60
-        colorKeys.Add(new GradientColorKey(parentA.skinColor, 0.40f));
-        colorKeys.Add(new GradientColorKey(parentB.skinColor, 0.60f));
-
-        // Add stripe Colors
-        if (parentA.hairStripeAColor != null)
-            colorKeys.Add(new GradientColorKey((Color)parentA.hairStripeAColor, 0.06f));        
-        if (parentA.hairStripeBColor != null)
-            colorKeys.Add(new GradientColorKey((Color)parentA.hairStripeBColor, 0.13f));
-
-        if (parentB.hairStripeAColor != null && colorKeys.Count() < 8)
-            colorKeys.Add(new GradientColorKey((Color)parentB.hairStripeAColor, 0.94f));
-        if (parentB.hairStripeBColor != null && colorKeys.Count() < 8)
-            colorKeys.Add(new GradientColorKey((Color)parentB.hairStripeBColor, 0.87f));
+        colorKeys.Add(new GradientColorKey(parentA.skinColor, 0.33f));
+        colorKeys.Add(new GradientColorKey(parentB.skinColor, 0.66f));
 
         GradientAlphaKey[] alphaKeys = new GradientAlphaKey[0];
 
@@ -222,7 +245,7 @@ public class ChildGeneratror : MonoBehaviour
     // by Prestigious_Kiwi_303
 
 
-    public void GenerateChild()
+    public void KiwiGenAlgo()
     {
         Color parentAEye = parentA.GetComponentInChildren<PonyColorManager>().GetCurrentColors().eyeColor;
         Color parentBEye = parentB.GetComponentInChildren<PonyColorManager>().GetCurrentColors().eyeColor;
@@ -272,7 +295,7 @@ public class ChildGeneratror : MonoBehaviour
         //    _mixedSatValDEBUG[i] = Color.HSVToRGB(0f, parentSaturations.ToArray()[i], parentValue.ToArray()[i]);
         //}
 
-        _mixedColValDEBUG = new Color[_mixedColorsDEBUG.Length];
+        Color[] _mixedColValDEBUG = new Color[_mixedColorsDEBUG.Length];
         for (int i = 0; i < combinedHues.Count; i++)
         {
             _mixedColValDEBUG[i] = Color.HSVToRGB(combinedHues.ToArray()[i], parentSaturations.ToArray()[i], parentValue.ToArray()[i]);
