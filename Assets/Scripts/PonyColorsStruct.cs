@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,24 +11,21 @@ using DrawColor = System.Drawing.Color;
 public struct PonyColorsStruct
 {
     public Color skinColor;
-    public Color mainColor;
+    public Color[] mainColorStripes;
     public Color eyeColor;
 
-    public Color? hairStripeAColor;
-    public Color? hairStripeBColor;
 
     public List<float> hues;
     public List<float> saturations;
     public List<float> brightness;
 
-    public PonyColorsStruct(Color skinColor, Color mainColor, Color eyeColor, Color? hairStripeAColor = null, Color? hairStripeBColor = null) : this()
+    public PonyColorsStruct(Color skinColor, Color[] mainColorStripes, Color eyeColor, Color? hairStripeAColor = null, Color? hairStripeBColor = null) : this()
     {
-        this.skinColor = skinColor;
-        this.mainColor = mainColor;
-        this.eyeColor = eyeColor;
+        if (mainColorStripes.Length == 0) mainColorStripes = Enumerable.Repeat(Color.cyan, 6).ToArray();
 
-        this.hairStripeAColor = hairStripeAColor;
-        this.hairStripeBColor = hairStripeBColor;
+        this.skinColor = skinColor;
+        this.mainColorStripes = mainColorStripes;
+        this.eyeColor = eyeColor;
 
         hues = new List<float>();
         saturations = new List<float>();
@@ -38,27 +36,9 @@ public struct PonyColorsStruct
         hues.Add(h);  
         saturations.Add(s);
         brightness.Add(v);
-        Color.RGBToHSV(mainColor, out h, out s, out v);
+        Color.RGBToHSV(mainColorStripes[0], out h, out s, out v);
         hues.Add(h);
         brightness.Add(v);
         saturations.Add(s);
-        //Color.RGBToHSV(eyeColor, out h, out s, out v);
-        //hues.Add(h);
-        //saturations.Add(s);
-        //brightness.Add(v);
-        //if (hairStripeAColor != null)
-        //{
-        //    Color.RGBToHSV((Color)hairStripeAColor, out h, out s, out v);
-        //    if (s > 0 && v > 0) hues.Add(h);
-        //    saturations.Add(s);
-        //    brightness.Add(v);
-        //}
-        //if (hairStripeBColor != null)
-        //{
-        //    Color.RGBToHSV((Color)hairStripeBColor, out h, out s, out v);
-        //    if (s > 0 && v > 0) hues.Add(h);
-        //    saturations.Add(s);
-        //    brightness.Add(v);
-        //}
     }
 }

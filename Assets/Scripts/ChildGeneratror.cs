@@ -52,12 +52,6 @@ public class ChildGeneratror : MonoBehaviour
     float VariationTollerance = 0.10f;
     int itterationCounter;
 
-    //[SerializeField] Color A;
-    //[SerializeField] Color B;
-    //[SerializeField] Color Output30;
-    //[SerializeField] Color Output50;
-    //[SerializeField] Color Output60;
-
     Color[] _mixedColorsDEBUG;
     Color[] _mixedValuesDEBUG;
     Color[] _mixedSatDEBUG;
@@ -101,9 +95,6 @@ public class ChildGeneratror : MonoBehaviour
 
         // for each child in scene:
         foreach (GameObject child in children) {
-
-            DeterminIfChildHasHairSteaks(parentA.GetComponentInChildren<PonyColorManager>().GetCurrentColors(),
-                                         parentB.GetComponentInChildren<PonyColorManager>().GetCurrentColors());
             
             randomNums = new float[7];
 
@@ -141,7 +132,7 @@ public class ChildGeneratror : MonoBehaviour
 
             PonyColorsStruct newColors = new PonyColorsStruct(
                 combinedGradient.Evaluate(randomNums[0]),
-                combinedGradient.Evaluate(randomNums[1]),
+                Enumerable.Repeat(combinedGradient.Evaluate(randomNums[0]), 6).ToArray(),
                 maximizeSaturation(combinedGradient.Evaluate(randomNums[2])),
                 hasStreakA ? combinedGradient.Evaluate(randomNums[3]) : null,
                 hasStreakB ? combinedGradient.Evaluate(randomNums[4]) : null
@@ -158,43 +149,13 @@ public class ChildGeneratror : MonoBehaviour
         return Color.HSVToRGB(h, s, 1);
     }
 
-    private void DeterminIfChildHasHairSteaks(PonyColorsStruct ponyColorsStruct1, PonyColorsStruct ponyColorsStruct2)
-    {
-        bool oneA = ponyColorsStruct1.hairStripeAColor != null;
-        bool oneB = ponyColorsStruct1.hairStripeBColor != null;
-        bool twoA = ponyColorsStruct2.hairStripeAColor != null;
-        bool twoB = ponyColorsStruct2.hairStripeBColor != null;
-
-        // streak A
-        if (oneA && twoA)
-        {
-            hasStreakA = true;
-        }
-        else if (oneA || twoA)
-        {
-            hasStreakA = UnityEngine.Random.Range(0, 2) == 0 ? true : false;
-        }
-        else { hasStreakA = false; }
-
-        // streak B
-        if (oneB && twoB)
-        {
-            hasStreakB = true;
-        }
-        else if (oneB || twoB)
-        {
-            hasStreakB = UnityEngine.Random.Range(0, 2) == 0 ? false : true;
-        }
-        else { hasStreakB = false; }
-    }
-
     private void CreateParentalGradient(PonyColorsStruct parentA, PonyColorsStruct parentB)
     {
         List<GradientColorKey> colorKeys = new List<GradientColorKey>();
 
         // Hair color at 0.20 and 0.80
-        colorKeys.Add(new GradientColorKey(parentA.mainColor, 0f));
-        colorKeys.Add(new GradientColorKey(parentB.mainColor, 1f));
+        colorKeys.Add(new GradientColorKey(parentA.mainColorStripes[0], 0f));
+        colorKeys.Add(new GradientColorKey(parentB.mainColorStripes[0], 1f));
 
         // Skin color at 0.40 and 0.60
         colorKeys.Add(new GradientColorKey(parentA.skinColor, 0.33f));
@@ -253,34 +214,12 @@ public class ChildGeneratror : MonoBehaviour
         combinedHues.AddRange(parentAHues);
         combinedHues.AddRange(parentBHues);
 
-        //int indexKeeper = 0;
-        //foreach (float aHue in parentAHues)
-        //{
-        //    foreach (float bHue in parentBHues)
-        //    {
-        //        for (int i = 0; i < 2; i++)
-        //        {
-        //            if (math.abs(aHue - bHue) > 0.25) { continue; }
-        //            float mixAmount = indexKeeper % 2 == 0 ? 0.5f : 0.95f;
-        //            combinedHues.Add(MixHues(aHue, bHue, mixAmount));
-        //            //Debug.Log(indexKeeper);
-        //            indexKeeper++;
-        //        }
-        //    }
-        //}
-
         if (combinedHues.Count == 0) combinedHues.Add(0.0f);
         float[] combinedHuesArray = combinedHues.ToArray();
 
         _mixedColorsDEBUG = System.Array.ConvertAll(combinedHues.ToArray(), hue => Color.HSVToRGB(hue, 1f, 1f));
         _mixedValuesDEBUG = System.Array.ConvertAll(parentValue.ToArray(), val => Color.HSVToRGB(0f, 1f, val));
         _mixedSatDEBUG = System.Array.ConvertAll(parentSaturations.ToArray(), sat => Color.HSVToRGB(0f, sat, 1f));
-
-        //_mixedSatValDEBUG = new Color[_mixedValuesDEBUG.Length];
-        //for (int i = 0; i < parentSaturations.Count; i++)
-        //{
-        //    _mixedSatValDEBUG[i] = Color.HSVToRGB(0f, parentSaturations.ToArray()[i], parentValue.ToArray()[i]);
-        //}
 
         Color[] _mixedColValDEBUG = new Color[_mixedColorsDEBUG.Length];
         for (int i = 0; i < combinedHues.Count; i++)
@@ -291,10 +230,6 @@ public class ChildGeneratror : MonoBehaviour
         // for each child in scene:
         foreach (GameObject child in children)
         {
-
-            DeterminIfChildHasHairSteaks(parentA.GetComponentInChildren<PonyColorManager>().GetCurrentColors(),
-                                         parentB.GetComponentInChildren<PonyColorManager>().GetCurrentColors());
-
             Color[] OutputColors = new Color[5];
 
             // for each color in child (i = 3 and i = 4 are stripes)
@@ -322,22 +257,6 @@ public class ChildGeneratror : MonoBehaviour
                 float val = parentValue[randomNum];
                 float sat = parentSaturations[randomNum];
 
-
-                //currentNumOfLoops = 0;
-                //do {
-                //    randomNum = UnityEngine.Random.Range(0, parentSaturations.Count);
-                //    currentNumOfLoops++;
-                //    if (currentNumOfLoops > maxNumOfLoops)
-                //    {
-                //        Debug.Log("doWhile broken SATVAL");
-                //        break;
-                //    }
-                //} while (satValIndexHistory.Contains(randomNum));
-                //satValIndexHistory.Add(randomNum);
-
-                
-                
-
                 OutputColors[i] = Color.HSVToRGB(h, sat, val);
             }
 
@@ -345,13 +264,11 @@ public class ChildGeneratror : MonoBehaviour
 
             PonyColorsStruct newColors = new PonyColorsStruct(
                 OutputColors[0],
-                OutputColors[1],
+                Enumerable.Repeat(OutputColors[1], 6).ToArray(),
                 //OutputColors[2],
                 randomNumEyeCol == 0 ? parentAEye : parentBEye,
                 OutputColors[3],
                 null //OutputColors[4]
-                //hasStreakA ? OutputColors[3] : null,
-                //hasStreakB ? OutputColors[4] : null
                 );
 
             child.GetComponentInChildren<PonyColorManager>().SetNewColors(newColors);
@@ -370,10 +287,6 @@ public class ChildGeneratror : MonoBehaviour
         if (mixedHue < 0) mixedHue += 1f; // Ensure positive hue
 
         return mixedHue;
-
-        //float mixedHue = Mathf.Lerp(hueA, hueB, mixAmount);
-
-        //return mixedHue;
     }
 
     #endregion

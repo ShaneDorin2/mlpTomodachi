@@ -7,9 +7,7 @@ using UnityEngine;
 public class ColorChanger : MonoBehaviour
 {
     [SerializeField] SpriteRenderer HairLineart;
-    [SerializeField] SpriteRenderer HairSrtipe1;
-    [SerializeField] SpriteRenderer HairStripe2;
-    [SerializeField] SpriteRenderer HairBase;
+    [SerializeField] GameObject HairStripes;
     [SerializeField] SpriteRenderer EyeColor;
     [SerializeField] SpriteRenderer SkinLineart;
     [SerializeField] SpriteRenderer SkinBase;
@@ -21,9 +19,14 @@ public class ColorChanger : MonoBehaviour
         //Debug.Log("setColorCalled");
     }
 
-    public void SetHairColor(Color color) { SetColor(HairBase, color); }
-    public void SetHairStripe1Color(Color color) { SetColor(HairSrtipe1, color); }
-    public void SetHairStripe2Color(Color color) { SetColor(HairStripe2, color); }
+    public void SetHairStripesColor(Color[] color) 
+    {
+        SpriteRenderer[] HairStripesSR = HairStripes.GetComponentsInChildren<SpriteRenderer>();
+        for (int i=0; i < HairStripesSR.Length; i++)
+        {
+            SetColor(HairStripesSR[i], color[i%6]);
+        }
+    }
     public void SetHairLineColor(Color color) { SetColor(HairLineart, color); }
     public void SetEyeColor(Color color) { SetColor(EyeColor, color); }
     public void SetSkinColor(Color color) { SetColor(SkinBase, color); }

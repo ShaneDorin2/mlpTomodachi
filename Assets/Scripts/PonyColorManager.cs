@@ -17,9 +17,7 @@ public class PonyColorManager : MonoBehaviour
     public Color[] allColors {  get; private set; }
     
     [Header("Hair Color")]
-    [SerializeField] Color HairBase;
-    [SerializeField] Color SFHairStripe1;
-    [SerializeField] Color SFHairStripe2;
+    [SerializeField] Color[] HairStripes; 
     [Tooltip("Tie Lineart To BaseColor (hair) ?")]
     [SerializeField] bool LockLineColorToBaseColorH = true;
     [SerializeField] Color HairLineart;
@@ -44,20 +42,14 @@ public class PonyColorManager : MonoBehaviour
 
     public void Start()
     {
-        HairStripe1 = SFHairStripe1.a == 0 ? null : SFHairStripe1;
-        HairStripe2 = SFHairStripe2.a == 0 ? null : SFHairStripe2;
-
+        if (HairStripes.Length == 0) HairStripes = Enumerable.Repeat(Color.cyan, 6).ToArray();
+        
         colorChanger = GetComponent<ColorChanger>();
         allColors = new Color[7];
     }
 
     public void Update()
     {
-        //HairStripe1 = SFHairStripe1.a == 0 ? null : SFHairStripe1;
-        //HairStripe2 = SFHairStripe2.a == 0 ? null : SFHairStripe2;
-
-        //colorChanger = GetComponent<ColorChanger>();
-        //allColors = new Color[7];
 
         //Start();
 
@@ -74,36 +66,23 @@ public class PonyColorManager : MonoBehaviour
         colorChanger.SetEyeColor(EyeColor);
 
         // Hair
-        colorChanger.SetHairColor(HairBase);
-        if (LockLineColorToBaseColorH) { colorChanger.SetHairLineColor(AutoGenerateLineColor(HairBase)); }
-        else colorChanger.SetHairLineColor(HairBase);
-
-        if (HairStripe1 != null) colorChanger.SetHairStripe1Color((Color)HairStripe1);
-        else colorChanger.SetHairStripe1Color(new Color(0, 0, 0, 0));
-
-        if (HairStripe2 != null) colorChanger.SetHairStripe2Color((Color)HairStripe2);
-        else colorChanger.SetHairStripe2Color(new Color(0, 0, 0, 0));
+        colorChanger.SetHairStripesColor(HairStripes);
+        if (LockLineColorToBaseColorH) { colorChanger.SetHairLineColor(AutoGenerateLineColor(HairStripes[0])); }
+        else colorChanger.SetHairLineColor(HairLineart);
     }
 
     public void SetNewColors(PonyColorsStruct colors)
     {
         SkinBase = colors.skinColor;
         EyeColor = colors.eyeColor;
-        HairBase = colors.mainColor;
-        HairStripe1 = colors.hairStripeAColor;
-        HairStripe2 = colors.hairStripeBColor;
+        HairStripes = colors.mainColorStripes;
 
         Update();
     }
 
     public PonyColorsStruct GetCurrentColors()
     {
-        if (HairStripe1 == null)
-        {
-            HairStripe1 = SFHairStripe1.a == 0 ? null : SFHairStripe1;
-            HairStripe2 = SFHairStripe2.a == 0 ? null : SFHairStripe2;
-        }
-        return new PonyColorsStruct(SkinBase, HairBase, EyeColor, HairStripe1, HairStripe2);
+        return new PonyColorsStruct(SkinBase, HairStripes, EyeColor, HairStripe1, HairStripe2);
     }
 
     private Color GenerateBackLegsColor()
