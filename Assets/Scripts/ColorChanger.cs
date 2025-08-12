@@ -24,7 +24,7 @@ public class ColorChanger : MonoBehaviour
         SpriteRenderer[] HairStripesSR = HairStripes.GetComponentsInChildren<SpriteRenderer>();
         for (int i=0; i < HairStripesSR.Length; i++)
         {
-            SetColor(HairStripesSR[i], color[i%6]);
+            SetColor(HairStripesSR[i], color[i%color.Length]);
         }
     }
     public void SetHairLineColor(Color color) { SetColor(HairLineart, color); }
