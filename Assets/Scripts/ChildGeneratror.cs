@@ -93,19 +93,6 @@ public class ChildGeneratror : MonoBehaviour
 
     #region Gradient Algorithm
 
-    //public void GenerateChildFAKE()
-    //{
-    //    float h, s, v;
-    //    UnityEngine.Color.RGBToHSV(A, out h, out s, out v);
-    //    float hueA = h;
-    //    UnityEngine.Color.RGBToHSV(B, out h, out s, out v);
-    //    float hueB = h;
-
-    //    Output30 = Color.HSVToRGB(MixHues(hueA, hueB, 0.25f), 1, 1);
-    //    Output50 = Color.HSVToRGB(MixHues(hueA, hueB, 0.5f), 1, 1);
-    //    Output60 = Color.HSVToRGB(MixHues(hueA, hueB, 0.75f), 1, 1);
-    //}
-
     // Update is called once per frame
     public void GradientGenAlgo()
     {
