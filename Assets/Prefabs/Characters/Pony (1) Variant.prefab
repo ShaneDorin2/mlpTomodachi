@@ -136,6 +136,82 @@ PrefabInstance:
       propertyPath: SkinBase.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5355301696083530894, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
+      propertyPath: HairStripes.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355301696083530894, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
+      propertyPath: HairStripes.Array.data[0].b
+      value: 0.5189183
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355301696083530894, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
+      propertyPath: HairStripes.Array.data[0].g
+      value: 0.2206746
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355301696083530894, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
+      propertyPath: HairStripes.Array.data[0].r
+      value: 0.8207547
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355301696083530894, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
+      propertyPath: HairStripes.Array.data[1].b
+      value: 0.5189183
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355301696083530894, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
+      propertyPath: HairStripes.Array.data[1].g
+      value: 0.2206746
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355301696083530894, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
+      propertyPath: HairStripes.Array.data[1].r
+      value: 0.8207547
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355301696083530894, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
+      propertyPath: HairStripes.Array.data[2].b
+      value: 0.5189183
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355301696083530894, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
+      propertyPath: HairStripes.Array.data[2].g
+      value: 0.2206746
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355301696083530894, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
+      propertyPath: HairStripes.Array.data[2].r
+      value: 0.8207547
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355301696083530894, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
+      propertyPath: HairStripes.Array.data[3].b
+      value: 0.5189183
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355301696083530894, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
+      propertyPath: HairStripes.Array.data[3].g
+      value: 0.2206746
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355301696083530894, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
+      propertyPath: HairStripes.Array.data[3].r
+      value: 0.8207547
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355301696083530894, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
+      propertyPath: HairStripes.Array.data[4].b
+      value: 0.5189183
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355301696083530894, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
+      propertyPath: HairStripes.Array.data[4].g
+      value: 0.2206746
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355301696083530894, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
+      propertyPath: HairStripes.Array.data[4].r
+      value: 0.8207547
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355301696083530894, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
+      propertyPath: HairStripes.Array.data[5].b
+      value: 0.5189183
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355301696083530894, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
+      propertyPath: HairStripes.Array.data[5].g
+      value: 0.2206746
+      objectReference: {fileID: 0}
+    - target: {fileID: 5355301696083530894, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
+      propertyPath: HairStripes.Array.data[5].r
+      value: 0.8207547
+      objectReference: {fileID: 0}
     - target: {fileID: 5718374728841368836, guid: 8a8a27aaef0220a40ba445bf2118ab34, type: 3}
       propertyPath: m_Color.a
       value: 0

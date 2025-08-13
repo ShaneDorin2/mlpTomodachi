@@ -90,8 +90,11 @@ public class ChildGeneratror : MonoBehaviour
     // Update is called once per frame
     public void GradientGenAlgo()
     {
-        CreateParentalGradient(parentA.GetComponentInChildren<PonyColorManager>().GetCurrentColors(),
-                               parentB.GetComponentInChildren<PonyColorManager>().GetCurrentColors());
+        PonyColorsStruct ParentAColStruct = parentA.GetComponentInChildren<PonyColorManager>().GetCurrentColors();
+        PonyColorsStruct ParentBColStruct = parentB.GetComponentInChildren<PonyColorManager>().GetCurrentColors();
+
+
+        CreateParentalGradient(ParentAColStruct,ParentBColStruct);
 
         // for each child in scene:
         foreach (GameObject child in children) {
@@ -130,9 +133,28 @@ public class ChildGeneratror : MonoBehaviour
                 randomNums[i] = randNum;
             }
 
+            // determin hair colors
+            List<Color> allParentMainColor = new List<Color>();
+            foreach (Color mainCol in ParentAColStruct.mainColorStripes)
+            {
+                if (allParentMainColor.Contains(mainCol)) continue;
+                allParentMainColor.Add(mainCol);
+            }
+            foreach (Color mainCol in ParentBColStruct.mainColorStripes)
+            {
+                if (allParentMainColor.Contains(mainCol)) continue;
+                allParentMainColor.Add(mainCol);
+            }
+            if (allParentMainColor.Count > 6)
+            {
+                allParentMainColor = allParentMainColor.Take(6).ToList();
+            }
+            float randomNum = UnityEngine.Random.Range(0.0f, 3.0f);
+            EHairColorDistributionType chosenType = randomNum < 1 ? EHairColorDistributionType.STRIPES : randomNum < 2 ? EHairColorDistributionType.SPLITS : EHairColorDistributionType.RANDOM;
+
             PonyColorsStruct newColors = new PonyColorsStruct(
                 combinedGradient.Evaluate(randomNums[0]),
-                Enumerable.Repeat(combinedGradient.Evaluate(randomNums[0]), 6).ToArray(),
+                MainStripeListGenerator(allParentMainColor.ToArray(), chosenType),
                 maximizeSaturation(combinedGradient.Evaluate(randomNums[2])),
                 hasStreakA ? combinedGradient.Evaluate(randomNums[3]) : null,
                 hasStreakB ? combinedGradient.Evaluate(randomNums[4]) : null
@@ -302,7 +324,7 @@ public class ChildGeneratror : MonoBehaviour
     }
 
     // up-to 6 colors and 3 streaks
-    Color[] MainStripeListGenerator(Color[] colors, EHairColorDistributionType hairType, Color[] streaks)
+    Color[] MainStripeListGenerator(Color[] colors, EHairColorDistributionType hairType, Color[] streaks = null)
     {
         Color[] outputCol = new Color[6];
 
@@ -323,7 +345,7 @@ public class ChildGeneratror : MonoBehaviour
                     break;
             }
         }
-
+        if (streaks == null) return outputCol;
         foreach (Color strek in streaks)
         {
             outputCol[UnityEngine.Random.Range(0, 6)] = strek;
