@@ -50,9 +50,6 @@ public class PonyColorManager : MonoBehaviour
 
     public void Update()
     {
-
-        //Start();
-
         // Skin
         if (colorChanger == null) Start();
 
@@ -66,9 +63,7 @@ public class PonyColorManager : MonoBehaviour
         colorChanger.SetEyeColor(EyeColor);
 
         // Hair
-        Color[] streaks = new Color[0];
-        Color[] NewHairStripes = MainStripeListGenerator(HairStripes, EHairColorDistributionType.RANDOM, streaks);
-        colorChanger.SetHairStripesColor(NewHairStripes);
+        colorChanger.SetHairStripesColor(HairStripes);
         if (LockLineColorToBaseColorH) { colorChanger.SetHairLineColor(AutoGenerateLineColor(HairStripes[0])); }
         else colorChanger.SetHairLineColor(HairLineart);
     }
@@ -112,43 +107,5 @@ public class PonyColorManager : MonoBehaviour
         Color newColor = new Color(r, g, b, 1);
 
         return newColor;
-    }
-
-    enum EHairColorDistributionType
-    {
-        STRIPES,
-        SPLITS,
-        RANDOM
-    }
-
-    // up-to 6 colors and 3 streaks
-    Color[] MainStripeListGenerator(Color[] colors, EHairColorDistributionType hairType, Color[] streaks)
-    {
-        Color[] outputCol = new Color[6];
-
-        for (int i = 0; i < outputCol.Length; i++)
-        {
-            switch (hairType)
-            {
-                case EHairColorDistributionType.STRIPES:
-                    outputCol[i] = colors[i % colors.Length];
-                    break;
-                case EHairColorDistributionType.SPLITS:
-                    outputCol[i] = colors[(int)(i / (6f / colors.Length))];
-                    break;
-                case EHairColorDistributionType.RANDOM:
-                    outputCol[i] = colors[UnityEngine.Random.Range(0, colors.Length)];
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        foreach (Color strek in streaks)
-        {
-            outputCol[UnityEngine.Random.Range(0, 6)] = strek;
-        }
-
-        return outputCol;
     }
 }

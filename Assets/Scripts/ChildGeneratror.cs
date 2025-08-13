@@ -291,41 +291,45 @@ public class ChildGeneratror : MonoBehaviour
 
     #endregion
 
-    //enum EHairColorDistributionType
-    //{
-    //     STRIPES, 
-    //     SPLITS,
-    //     RANDOM
-    //}
 
-    //// up-to 6 colors and 3 streaks
-    //Color[] MainStripeListGenerator(Color[] colors, EHairColorDistributionType hairType, Color[] streaks)
-    //{
-    //    Color[] outputCol = new Color[6];
+    #region Hair Stripe Manager
 
-    //    for (int i = 0; i < colors.Length; i++)
-    //    {
-    //        switch (hairType)
-    //        {
-    //            case EHairColorDistributionType.STRIPES:
-    //                outputCol[i] = colors[i % colors.Length];
-    //                break;
-    //            case EHairColorDistributionType.SPLITS:
-    //                outputCol[i] = colors[i / (6 / colors.Length)];
-    //                break;
-    //            case EHairColorDistributionType.RANDOM:
-    //                outputCol[i] = colors[UnityEngine.Random.Range(0, colors.Length)];
-    //                break;
-    //            default:
-    //                break;
-    //        }
-    //    }
+    enum EHairColorDistributionType
+    {
+        STRIPES,
+        SPLITS,
+        RANDOM
+    }
 
-    //    foreach (Color strek in streaks)
-    //    {
-    //        outputCol[UnityEngine.Random.Range(0, 6)] = strek;
-    //    }
+    // up-to 6 colors and 3 streaks
+    Color[] MainStripeListGenerator(Color[] colors, EHairColorDistributionType hairType, Color[] streaks)
+    {
+        Color[] outputCol = new Color[6];
 
-    //    return outputCol;
-    //}
+        for (int i = 0; i < outputCol.Length; i++)
+        {
+            switch (hairType)
+            {
+                case EHairColorDistributionType.STRIPES:
+                    outputCol[i] = colors[i % colors.Length];
+                    break;
+                case EHairColorDistributionType.SPLITS:
+                    outputCol[i] = colors[(int)(i / (6f / colors.Length))];
+                    break;
+                case EHairColorDistributionType.RANDOM:
+                    outputCol[i] = colors[UnityEngine.Random.Range(0, colors.Length)];
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        foreach (Color strek in streaks)
+        {
+            outputCol[UnityEngine.Random.Range(0, 6)] = strek;
+        }
+
+        return outputCol;
+    }
+    #endregion
 }
