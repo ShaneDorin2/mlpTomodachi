@@ -155,9 +155,7 @@ public class ChildGeneratror : MonoBehaviour
             PonyColorsStruct newColors = new PonyColorsStruct(
                 combinedGradient.Evaluate(randomNums[0]),
                 MainStripeListGenerator(allParentMainColor.ToArray(), chosenType),
-                maximizeSaturation(combinedGradient.Evaluate(randomNums[2])),
-                hasStreakA ? combinedGradient.Evaluate(randomNums[3]) : null,
-                hasStreakB ? combinedGradient.Evaluate(randomNums[4]) : null
+                maximizeSaturation(combinedGradient.Evaluate(randomNums[2]))
                 );
 
             child.GetComponentInChildren<PonyColorManager>().SetNewColors(newColors);
@@ -287,10 +285,7 @@ public class ChildGeneratror : MonoBehaviour
             PonyColorsStruct newColors = new PonyColorsStruct(
                 OutputColors[0],
                 Enumerable.Repeat(OutputColors[1], 6).ToArray(),
-                //OutputColors[2],
-                randomNumEyeCol == 0 ? parentAEye : parentBEye,
-                OutputColors[3],
-                null //OutputColors[4]
+                randomNumEyeCol == 0 ? parentAEye : parentBEye
                 );
 
             child.GetComponentInChildren<PonyColorManager>().SetNewColors(newColors);

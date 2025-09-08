@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using System;
 using Unity.VisualScripting;
+using UnityEditor;
 
 //using Color = System.Drawing.Color; // to prevent conflic between UnityEngin.Color and System.Drawing.Color
 
@@ -14,8 +15,7 @@ using Unity.VisualScripting;
 //[ExecuteInEditMode] // Ensures the script runs in Edit Mode
 public class PonyColorManager : MonoBehaviour
 {
-    public Color[] allColors {  get; private set; }
-    
+    #region Inspector
     [Header("Hair Color")]
     [SerializeField] Color[] HairStripes; 
     [Tooltip("Tie Lineart To BaseColor (hair) ?")]
@@ -28,44 +28,50 @@ public class PonyColorManager : MonoBehaviour
     [SerializeField] bool LockLineColorToBaseColorS = true;
     [SerializeField] Color SkinLineart;
 
-
     [Header("Eye Color")]
     [SerializeField] Color EyeColor;
 
-    [Header("for fun")]
-    [SerializeField] Gradient gradient;
+    [Header("Hair Streaks")]
+    [SerializeField, Tooltip("Index can only be from 0 to 5")] Dictionary<int, Color> Streaks;
+    #endregion
 
-    Color? HairStripe1;
-    Color? HairStripe2;
-
+    PonyColorsStruct _ponyColorStruct;
     ColorChanger colorChanger;
+
+    public Color[] allColors { get; private set; } // get rid of this. 
 
     public void Start()
     {
-        if (HairStripes.Length == 0) HairStripes = Enumerable.Repeat(Color.cyan, 6).ToArray();
-        
         colorChanger = GetComponent<ColorChanger>();
+
+        // get rid of this
+        if (HairStripes.Length == 0) HairStripes = Enumerable.Repeat(Color.cyan, 6).ToArray();
         allColors = new Color[7];
     }
 
     public void Update()
     {
-        // Skin
         if (colorChanger == null) Start();
 
-        colorChanger.SetSkinColor(SkinBase);
-        if (LockLineColorToBaseColorS) colorChanger.SetSkinLineColor(AutoGenerateLineColor(SkinBase)); 
+        // Skin
+        colorChanger.SetSkinColor(_ponyColorStruct.skinColor);
+        if (LockLineColorToBaseColorS) colorChanger.SetSkinLineColor(AutoGenerateLineColor(_ponyColorStruct.skinColor)); 
         else colorChanger.SetSkinLineColor(SkinLineart);
 
         colorChanger.SetBackLegsColor(GenerateBackLegsColor());
 
         // Eyes
-        colorChanger.SetEyeColor(EyeColor);
+        colorChanger.SetEyeColor(_ponyColorStruct.eyeColor);
 
         // Hair
-        colorChanger.SetHairStripesColor(HairStripes);
-        if (LockLineColorToBaseColorH) { colorChanger.SetHairLineColor(AutoGenerateLineColor(HairStripes[0])); }
+        colorChanger.SetHairStripesColor(_ponyColorStruct.mainColorStripes);
+        if (LockLineColorToBaseColorH) { colorChanger.SetHairLineColor(AutoGenerateLineColor(_ponyColorStruct.mainColorStripes[0])); }
         else colorChanger.SetHairLineColor(HairLineart);
+    }
+
+    public void UpdateColorStructWithInspectorColors()
+    {
+        _ponyColorStruct = new PonyColorsStruct(SkinBase, HairStripes, EyeColor, Streaks);
     }
 
     public void SetNewColors(PonyColorsStruct colors)
@@ -78,16 +84,17 @@ public class PonyColorManager : MonoBehaviour
 
     public PonyColorsStruct GetCurrentColors()
     {
-        return new PonyColorsStruct(SkinBase, HairStripes, EyeColor, HairStripe1, HairStripe2);
+        return new PonyColorsStruct(SkinBase, HairStripes, EyeColor);
     }
 
     private Color GenerateBackLegsColor()
     {
+        Color skin = _ponyColorStruct.skinColor;
         float severity = 0.1f;
 
-        float r = SkinBase.r; 
-        float g = SkinBase.g;
-        float b = SkinBase.b;
+        float r = skin.r; 
+        float g = skin.g;
+        float b = skin.b;
 
         return new Color(
             r -= severity, 
