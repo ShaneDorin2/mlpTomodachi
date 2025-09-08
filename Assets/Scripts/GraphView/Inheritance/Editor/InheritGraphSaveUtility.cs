@@ -13,7 +13,7 @@ public class InheritGraphSaveUtility
     private InheritanceContainer _containerCach;
     
     private List<Edge> Edges => _targetGraphView.edges.ToList();
-    private List<DialogueNode> Nodes => _targetGraphView.nodes.ToList().Cast<DialogueNode>().ToList(); 
+    private List<InheritanceNode> Nodes => _targetGraphView.nodes.ToList().Cast<InheritanceNode>().ToList(); 
 
     public static InheritGraphSaveUtility GetInstance(InhertanceGraphView targetGraphView)
     {
@@ -28,15 +28,15 @@ public class InheritGraphSaveUtility
         if(!Edges.Any()) return; //If there are no edges, return nothing. 
 
         //Create scriptable object that will contain the data
-        var dialogueContainer = ScriptableObject.CreateInstance<DialogueContainer>();
+        var dialogueContainer = ScriptableObject.CreateInstance<InheritanceContainer>();
         var connectedPorts = Edges.Where(x => x.input.node != null).ToArray(); //only get edges that are bonded to another node. 
         
         for (int i = 0; i < connectedPorts.Length; i++)
         {
-            var outputNode = connectedPorts[i].output.node as DialogueNode;
-            var inputNode = connectedPorts[i].input.node as DialogueNode;
+            var outputNode = connectedPorts[i].output.node as InheritanceNode;
+            var inputNode = connectedPorts[i].input.node as InheritanceNode;
 
-            dialogueContainer.NodeLinks.Add(new NodeLinkData  //turn each edge into a NodeLinkData
+            dialogueContainer.NodeLinks.Add(new InheritNodeLinkData  //turn each edge into a NodeLinkData
             {
                 BaseNodeGuid = outputNode.GUID,
                 PortName = connectedPorts[i].output.portName,
@@ -46,7 +46,7 @@ public class InheritGraphSaveUtility
         
         foreach (var dialogueNode in Nodes.Where(node => !node.EntryPoint))
         {
-            dialogueContainer.dialogueNodeData.Add(new DialogueNodeData //turn each node into DiologueNodeData
+            dialogueContainer.dialogueNodeData.Add(new InheritanceNodeData //turn each node into DiologueNodeData
             {
                 Guid = dialogueNode.GUID,
                 DilalogueText = dialogueNode.DialogueText,
@@ -65,7 +65,7 @@ public class InheritGraphSaveUtility
 
     public void LoadGraph(string fileName)
     {
-        _containerCach = Resources.Load<DialogueContainer>(fileName);
+        _containerCach = Resources.Load<InheritanceContainer>(fileName);
         if (_containerCach == null)
         {
             EditorUtility.DisplayDialog("File not found", "target dialogue graph file does not exit!", "OK");

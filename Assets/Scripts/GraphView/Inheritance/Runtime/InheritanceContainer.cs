@@ -6,6 +6,6 @@ using UnityEngine;
 [Serializable]
 public class InheritanceContainer : ScriptableObject
 {
-    public List<NodeLinkData> NodeLinks = new List<NodeLinkData>();
-    public List<DialogueNodeData> dialogueNodeData = new List<DialogueNodeData>(); 
+    public List<InheritNodeLinkData> NodeLinks = new List<InheritNodeLinkData>();
+    public List<InheritanceNodeData> dialogueNodeData = new List<InheritanceNodeData>(); 
 }

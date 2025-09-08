@@ -48,7 +48,7 @@ public class InhertanceGraphView : GraphView
     }
     
 
-    private Port GeneratePort(DialogueNode node,                             //the node that will have this port. 
+    private Port GeneratePort(InheritanceNode node,                             //the node that will have this port. 
                               Direction portDirection,                       //input port or output port ?
                               Port.Capacity capacity = Port.Capacity.Single) //how many edges can connect to this one port?
     {
@@ -60,9 +60,9 @@ public class InhertanceGraphView : GraphView
     }
 
 
-    private DialogueNode GenerateEntryPointNode()
+    private InheritanceNode GenerateEntryPointNode()
     {
-        var node = new DialogueNode //create new DialogueNode object
+        var node = new InheritanceNode //create new DialogueNode object
         {
             // from Node constuctor
             title = "Start",
@@ -94,9 +94,9 @@ public class InhertanceGraphView : GraphView
     }
 
 
-    public DialogueNode CreateDialogueNode(string nodeName) //called when 'create node' button is pressed
+    public InheritanceNode CreateDialogueNode(string nodeName) //called when 'create node' button is pressed
     {
-        var dialogueNode = new DialogueNode //create node obj
+        var dialogueNode = new InheritanceNode //create node obj
         {
             // constructor
             title = nodeName,
@@ -125,7 +125,7 @@ public class InhertanceGraphView : GraphView
     }
 
 
-    public void AddChoicePort(DialogueNode dialogueNode, string overridenPortName = "") //creates new output port upon button press. 
+    public void AddChoicePort(InheritanceNode dialogueNode, string overridenPortName = "") //creates new output port upon button press. 
     {
         var generatedPort = GeneratePort(dialogueNode, Direction.Output);
 

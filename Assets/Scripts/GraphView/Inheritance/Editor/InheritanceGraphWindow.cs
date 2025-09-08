@@ -14,7 +14,7 @@ using UnityEngine.UIElements;
 
 public class InheritanceGraph : EditorWindow
 {
-    private DialogueGraphView _graphView;
+    private InhertanceGraphView _graphView;
     private String _fileName = "New Narrative";
 
     [MenuItem("Graph/Dialogue Graph")] //makes method available as top bar menu option. Method must be static to do this. 
@@ -22,7 +22,7 @@ public class InheritanceGraph : EditorWindow
         //this method will open a window containting my GraphView
     {
         //opens the window defined by this class. puts it in 'window'
-        var window = GetWindow<DialogueGraph>();
+        var window = GetWindow<InheritanceGraph>();
         //sets title
         window.titleContent = new GUIContent("Dialogue Graph");
     }
@@ -37,7 +37,7 @@ public class InheritanceGraph : EditorWindow
     private void ConstructGraphView()
     {
         //create a DialogueGraphView object
-        _graphView = new DialogueGraphView
+        _graphView = new InhertanceGraphView
         {
             name = "HoogaBooga" //in contructor of GraphView (i think)
         };
@@ -80,7 +80,7 @@ public class InheritanceGraph : EditorWindow
             EditorUtility.DisplayDialog("Invalid file name!", "Please enter valid file name.", "OK");
             return;
         }
-        var saveUtility = GraphSaveUtility.GetInstance(_graphView);
+        var saveUtility = InheritGraphSaveUtility.GetInstance(_graphView);
         if (save)
         {
             saveUtility.SaveGraph(_fileName);
