@@ -25,8 +25,6 @@ public class InhertanceGraphView : GraphView
         this.AddManipulator(new SelectionDragger());
         this.AddManipulator(new RectangleSelector());
 
-
-
         // AddElement is from GraphView base class
         AddElement(GenerateEntryPointNode()); //Creat starter node
     }

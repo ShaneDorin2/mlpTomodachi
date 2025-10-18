@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-enum EParent
+public enum EParent
 {
     PARENT_A, 
     PARENT_B
 }
 
-enum ETrait
+public enum ETrait
 {
     HAIR,
     COAT,
@@ -18,14 +18,14 @@ enum ETrait
 
 public struct InheritedTrait
 {
-    EParent parent;
-    ETrait trait;
+    public EParent parent;
+    public ETrait trait;
 }
 
 public struct InheritanceTicket 
 {
-    InheritedTrait hair;
-    InheritedTrait coat;
-    InheritedTrait eyes;
-    InheritedTrait streak;
+    public InheritedTrait hair;
+    public InheritedTrait coat;
+    public InheritedTrait eyes;
+    public InheritedTrait streak;
 }

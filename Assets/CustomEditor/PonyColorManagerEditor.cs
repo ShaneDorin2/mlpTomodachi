@@ -12,6 +12,11 @@ public class PonyColorManagerEditor : Editor
         base.OnInspectorGUI(); // or DrawDefaultInsepctor() ? 
 
         PonyColorManager script = (PonyColorManager)target;
+
+        if (GUILayout.Button("UpdatePonyColorStuct"))
+        {
+            script.UpdateColorStructWithInspectorColors();
+        }
         if (GUILayout.Button("ApplyNewColors"))
         {
             script.Start();
