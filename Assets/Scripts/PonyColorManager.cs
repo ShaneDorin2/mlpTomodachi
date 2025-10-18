@@ -54,6 +54,8 @@ public class PonyColorManager : MonoBehaviour
     {
         if (colorChanger == null) Start();
 
+        UpdateColorStructWithInspectorColors();
+
         // Skin
         colorChanger.SetSkinColor(_ponyColorStruct.skinColor);
         if (LockLineColorToBaseColorS) colorChanger.SetSkinLineColor(AutoGenerateLineColor(_ponyColorStruct.skinColor));
